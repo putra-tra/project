@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroTrade - Login & Profil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b0b2d, #1a1a4a);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background dengan tema astronot */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .planet-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #4a235a, #1a1a4a);
+            top: -150px;
+            right: -150px;
+        }
+
+        .planet-2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #154360, #1a1a4a);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        /* Slide container */
+        .slides-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Slide 1 - Form Login */
+        .login-container {
+            background: rgba(10, 10, 35, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #a0a0d0;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b8b8e0;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Slide 2 - Profil Perdagangan */
+        .profile-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #f72585, #7209b7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .profile-header p {
+            font-size: 1.2rem;
+            color: #b8b8e0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(10, 10, 35, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #4cc9f0;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: #b8b8e0;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f72585;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #b8b8e0;
+            font-size: 1rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: rgba(10, 10, 35, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .cta-section p {
+            color: #b8b8e0;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #f72585, #7209b7);
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.4);
+        }
+
+        /* Navigasi antar slide */
+        .slide-nav {
+            position: absolute;
+            bottom: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot.active {
+            background: #4361ee;
+            transform: scale(1.2);
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 0 20px;
+            }
+            
+            .profile-container {
+                padding: 10px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Background dengan bintang dan planet -->
+        <div class="stars" id="stars"></div>
+        <div class="planet planet-1"></div>
+        <div class="planet planet-2"></div>
+        
+        <!-- Container untuk slide -->
+        <div class="slides-container" id="slidesContainer">
+            <!-- Slide 1: Form Login -->
+            <div class="slide" id="slide1">
+                <div class="login-container">
+                    <div class="logo">
+                        <h1>AstroTrade</h1>
+                        <p>Jelajahi Dunia Perdagangan Masa Depan</p>
+                    </div>
+                    
+                    <form method="post" loginfrom="slide1" loginfrom="slide2"
+                    <form id="loginForm" >
+                        <div class="form-group">
+                            <label for="nama">Nama Lengkap</label>
+                            <input type="text" id="nama" class="form-control" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Alamat Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Masukkan alamat email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sandi">Kata Sandi</label>
+                            <input type="password" id="sandi" class="form-control" placeholder="Buat kata sandi yang kuat" required>
+                        </div>
+                        
+                        <button type="submit" class="btn">Bergabung dengan AstroTrade</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Slide 2: Profil Perdagangan -->
+            <div class="slide" id="slide2">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <h1>AstroTrade Platform</h1>
+                        <p>Platform perdagangan masa depan yang memadukan teknologi canggih dengan pengalaman pengguna yang luar biasa</p>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature-card">
+                            <div class="feature-icon">🚀</div>
+                            <h3>Trading Cepat & Efisien</h3>
+                            <p>Eksekusi perdagangan dalam milidetik dengan teknologi terdepan untuk memaksimalkan peluang Anda di pasar.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <h3>Keamanan Tingkat Tinggi</h3>
+                            <p>Dengan enkripsi end-to-end dan sistem keamanan berlapis, aset Anda akan selalu terlindungi.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Analisis Real-time</h3>
+                            <p>Akses data pasar terkini dan alat analisis canggih untuk membuat keputusan yang tepat.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">500K+</div>
+                            <div class="stat-label">Pengguna Aktif</div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-number">$10M+</div>
+                            <div class="stat-label">Volume Perdagangan Harian</div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-number">99.9%</div>
+                            <div class="stat-label">Uptime Platform</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cta-section">
+                        <h2>Siap Memulai Perjalanan Trading Anda?</h2>
+                        <p>Bergabunglah dengan komunitas trader terdepan dan nikmati pengalaman trading yang tak tertandingi dengan AstroTrade.</p>
+                        <a href="#" class="btn-secondary" id="backToLogin">Kembali ke Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigasi slide -->
+        <div class="slide-nav">
+            <div class="nav-dot active" data-slide="0"></div>
+            <div class="nav-dot" data-slide="1"></div>
+        </div>
+    </div>
+
+    <script>
+        // Membuat efek bintang di background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Posisi acak
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Ukuran acak
+                const size = Math.random() * 3;
+                
+                // Waktu animasi acak
+                const duration = 3 + Math.random() * 7;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Fungsi untuk mengubah slide
+        function goToSlide(slideIndex) {
+            const slidesContainer = document.getElementById('slidesContainer');
+            const dots = document.querySelectorAll('.nav-dot');
+            
+            // Geser container slide
+            slidesContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+            
+            // Update status dot navigasi
+            dots.forEach((dot, index) => {
+                if (index === slideIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Event listener untuk form login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validasi sederhana
+            const nama = document.getElementById('nama').value;
+            const email = document.getElementById('email').value;
+            const sandi = document.getElementById('sandi').value;
+            
+            if (nama && email && sandi) {
+                // Simulasi proses login/registrasi
+                alert(`Selamat datang ${nama}, akun Anda berhasil dibuat!`);
+                
+                // Pindah ke slide 2
+                goToSlide(1);
+            } else {
+                alert('Harap lengkapi semua field!');
+            }
+        });
+        
+        // Event listener untuk tombol kembali ke login
+        document.getElementById('backToLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            goToSlide(0);
+        });
+        
+        // Event listener untuk navigasi dot
+        document.querySelectorAll('.nav-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const slideIndex = parseInt(this.getAttribute('data-slide'));
+                goToSlide(slideIndex);
+            });
+        });
+        
+        // Inisialisasi saat halaman dimuat
+        window.addEventListener('load', function() {
+            createStars();
+        });
+    </script>
+</body>
+</ht
